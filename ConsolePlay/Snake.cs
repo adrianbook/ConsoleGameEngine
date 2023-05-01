@@ -96,7 +96,7 @@ namespace ConsolePlay
             Positions.Add(newHead);
             if (!Munch)
             {
-                Positions.RemoveAt(Positions.Count-1);
+                Positions.RemoveAt(0);
             } else
             {
                 Munch = false;

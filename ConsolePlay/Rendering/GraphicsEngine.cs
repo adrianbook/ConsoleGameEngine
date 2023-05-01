@@ -35,15 +35,6 @@ namespace ConsolePlay.Rendering
                     Console.Clear();
                     return;
                 }
-
-                if (_latestPositions == null || !_latestPositions.Any())
-                {
-                    foreach (var position in incommingPositions)
-                    {
-                        Console.SetCursorPosition(position.Left, position.Top);
-                        Console.Write(position.Symbol);
-                    }
-                }
                 if (_latestPositions == null || !_latestPositions.Any())
                 {
                     RenderOnEmptyScreen(incommingPositions);
@@ -71,23 +62,21 @@ namespace ConsolePlay.Rendering
         }
         private void RenderOnTopOf(HashSet<Position> incommingPositions)
         {
+            var positionsToUpdate = new HashSet<Position>(incommingPositions, new PositionRenderingComparer());
+            var positionsToRemove = new HashSet<Position>(_latestPositions!, new PositionRenderingComparer());
 
-            var newEnumer = incommingPositions.GetEnumerator();
-            var oldEnumer = _latestPositions!.GetEnumerator();
-            for (; newEnumer.MoveNext() | oldEnumer.MoveNext();)
+            positionsToUpdate.ExceptWith(_latestPositions!);
+            positionsToRemove.ExceptWith(incommingPositions);
+
+            foreach (var pos in positionsToUpdate)
             {
-                var N = newEnumer.Current;
-                var O = oldEnumer.Current;
-                if (oldEnumer.Current != null && !incommingPositions.Contains(oldEnumer.Current))
-                {
-                    Console.SetCursorPosition(oldEnumer.Current.Left, oldEnumer.Current.Top);
-                    Console.Write(' ');
-                }
-                if (newEnumer.Current != null && !_latestPositions.Contains(newEnumer.Current))
-                {
-                    Console.SetCursorPosition(newEnumer.Current.Left, newEnumer.Current.Top);
-                    Console.Write(newEnumer.Current.Symbol);
-                }
+                Console.SetCursorPosition(pos.Left, pos.Top);
+                Console.Write(pos.Symbol);
+            }
+            foreach (var pos in positionsToRemove)
+            {
+                Console.SetCursorPosition(pos.Left, pos.Top);
+                Console.Write(' ');
             }
             _latestPositions = incommingPositions;
         }

@@ -37,29 +37,37 @@ namespace ConsolePlay
 
         private char GetCountdown()
         {
-            var now = DateTime.Now;
-            var diff = now - _creation;
-            var seconds = diff.TotalSeconds;
-            var countdown = 10 - seconds;
-            if (countdown < 1)
+            try
             {
-                State = Is.Stale;
-                return '&';
+                var now = DateTime.Now;
+                var diff = now - _creation;
+                var seconds = diff.TotalSeconds;
+                var countdown = 10 - seconds;
+                if (countdown < 1)
+                {
+                    State = Is.Stale;
+                    return '&';
+                }
+                return countdown switch
+                {
+                    < 0 => 'O',
+                    < 1 => '1',
+                    < 2 => '2',
+                    < 3 => '3',
+                    < 4 => '4',
+                    < 5 => '5',
+                    < 6 => '6',
+                    < 7 => '7',
+                    < 8 => '8',
+                    < 9 => '9',
+                    _ => '0'
+                };
             }
-            return countdown switch
+            catch (Exception e)
             {
-                < 0 => 'O',
-                < 1 => '1',
-                < 2 => '2',
-                < 3 => '3',
-                < 4 => '4',
-                < 5 => '5',
-                < 6 => '6',
-                < 7 => '7',
-                < 8 => '8',
-                < 9 => '9',
-                _ => '0'
-            };
+                Console.WriteLine(e);
+                throw;
+            }
 
         }
 

@@ -66,11 +66,7 @@ namespace ConsolePlay.Rendering
     {
         public bool Equals(Position? x, Position? y)
         {
-            if (x == null || y == null)
-            {
-                return false;
-            }
-            return !x.Equals(y) && x.Symbol == y.Symbol;
+            return x?.StrictEquals(y) ?? false;
         }
 
         public int GetHashCode([DisallowNull] Position obj)

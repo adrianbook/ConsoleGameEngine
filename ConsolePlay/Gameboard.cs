@@ -57,11 +57,7 @@ namespace ConsolePlay
             _occupiedPossitions= new HashSet<Position>();
             if (GameOver)
             {
-                foreach (var entity in _entities)
-                {
-                    RemoveEntity(entity);
-                }
-                RegisterEntity(GameOverScreen);
+                _entities = new List<BaseEntity> { GameOverScreen };
             }
             for (int i = 0; i < _entities.Count; i++)
             {

@@ -13,7 +13,6 @@ var inputTracker = new InputTracker();
 var snake = new Snake(board);
 board.RegisterEntity(snake);
 //board.RegisterEntity(Treat.CreateTreat(board));
-board.GameOver= true;
 Console.WriteLine("ojojoj");
 do
 {
